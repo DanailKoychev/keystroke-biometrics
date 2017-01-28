@@ -1,0 +1,7 @@
+{"key":"k","timeStamp":"1485637192958","timeStampBrowserSpecific":"4209.245","shiftKey":"false","type":"keydown"}
+{"key":"k","timeStamp":"1485637193089","timeStampBrowserSpecific":"4342.245","shiftKey":"false","type":"keyup"}
+{"key":"l","timeStamp":"1485637212535","timeStampBrowserSpecific":"23788.245000000003","shiftKey":"false","type":"keydown"}
+{"key":"l","timeStamp":"1485637212625","timeStampBrowserSpecific":"23878.245000000003","shiftKey":"false","type":"keyup"}
+{"key":"F5","timeStamp":"1485637218778","timeStampBrowserSpecific":"30030.245","shiftKey":"false","type":"keydown"}
+{"key":"g","timeStamp":"1485637230685","timeStampBrowserSpecific":"940.4100000000001","shiftKey":"false","type":"keydown"}
+{"key":"g","timeStamp":"1485637230844","timeStampBrowserSpecific":"1100.41","shiftKey":"false","type":"keyup"}
