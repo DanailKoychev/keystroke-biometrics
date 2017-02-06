@@ -32,7 +32,7 @@ if(isset($_SESSION[$key_hold])){
   $new_mean = ($info["mean"] * $info["occurrences"] + $data["timeHold"]) / $new_occurrences;
   $new_variance = 0;
   for($i = 0; $i < count($examples); $i++) {
-    $new_variance += pow($new_mean - $examples[i], 2);
+    $new_variance += pow($new_mean - $examples[$i], 2);
   }
   $new_variance += pow($new_mean - $data["timeHold"], 2);
   $new_variance /= $new_occurrences;
