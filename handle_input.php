@@ -2,6 +2,15 @@
 
 session_start();
 
+//magical reccurance relation for calculating variance
+function next_m($k, $m, $x){
+  return $m + ($x - $m) / $k;
+}
+
+function next_s($s, $m, $mnew, $k, $x){
+  return $s + ($x - $m) * ($x - $mnew);
+}
+
 $key         = $_POST["key"];
 $timeStampUp   = $_POST["timeStampUp"];
 $timeStampBrowserSpecificUp = $_POST['timeStampBrowserSpecificUp'];
@@ -22,7 +31,7 @@ $data = array(
     "shiftKey"   => $shiftKey
 
 );
-echo session_id();
+
 $key_hold = $data["key"] . "_hold";
 
 if(isset($_SESSION[$key_hold])){
@@ -30,27 +39,29 @@ if(isset($_SESSION[$key_hold])){
   $examples = $info["examples"];
   $new_occurrences = $info["occurrences"] + 1;
   $new_mean = ($info["mean"] * $info["occurrences"] + $data["timeHold"]) / $new_occurrences;
-  $new_variance = 0;
-  for($i = 0; $i < count($examples); $i++) {
-    $new_variance += pow($new_mean - $examples[$i], 2);
-  }
-  $new_variance += pow($new_mean - $data["timeHold"], 2);
-  $new_variance /= $new_occurrences;
-  array_push($examples, $data["timeHold"]);
+
+  $m_prev = $_SESSION[$key_hold]["m"];
+  $s_prev = $_SESSION[$key_hold]["s"];
+
+  $m_new = next_m($new_occurrences, $m_prev, $data["timeHold"]);
+  $s_new = next_s($s_prev, $m_prev, $m_new, $new_occurrences, $data["timeHold"]);
 
   $_SESSION[$key_hold]["mean"] = $new_mean;
-  $_SESSION[$key_hold]["variance"] = $new_variance;
   $_SESSION[$key_hold]["occurrences"] = $new_occurrences;
-  $_SESSION[$key_hold]["examples"] = $examples;
-  echo "well this seems to work";
+  $_SESSION[$key_hold]["m"] = $m_new;
+  $_SESSION[$key_hold]["s"] = $s_new;
+  $_SESSION[$key_hold]["variance"] = $s_new / $new_occurrences;
+
+
+
 }else{
   //first event of a given key
-  echo "first";
   $info = array(
     "mean" => $data["timeHold"],
     "variance" => 0,
     "occurrences" => 1,
-    "examples" => array($data["timeHold"])
+    "m" => $data["timeHold"],
+    "s" => 0,
   );
   $_SESSION[$key_hold] = $info;
 }
