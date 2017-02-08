@@ -1,10 +1,12 @@
 <?php
 session_start();
 
-$user = 'root';
-$pass = '';
-$host = "localhost";
-$dbname = "keystroke_biometrics";
+require 'CONSTANTS.php';
+
+$user = DBUSER;
+$pass = DBPASS;
+$host = HOST;
+$dbname = DBNAME;
 
 
 $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);

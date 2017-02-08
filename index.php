@@ -11,6 +11,7 @@ $_SESSION = array();
     <script src="js/type-event-handler.js"></script>
     <script src="js/periodic_query.js"></script>
     <script src="js/save_to_db.js"></script>
+    <script src="js/check_closest_model.js"></script>
 
 </head>
 
@@ -24,7 +25,10 @@ $_SESSION = array();
     <input type="button" id="save" value="save">
     <br>
     <br>
-    <textarea id="model-output" cols ="50" rows="30"></textarea>
+    <textarea id="model-output" cols ="50" rows="5"></textarea>
+    <br><br>
+    <textarea id="result" cols="50" rows="5"></textarea>
+    <input type="button" id="check" value="check">
 
     <script>
         $("#text-input").keyup(key_up_handler);
@@ -32,6 +36,8 @@ $_SESSION = array();
         $("#text-input").keydown(key_down_handler);
 
         $("#save").click(save_to_db);
+
+        $("#check").click(check_closest_model);
 
         periodic_query_for_model();
     </script>
