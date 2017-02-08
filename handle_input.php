@@ -33,10 +33,9 @@ $data = array(
 );
 
 $key_hold = $data["key"] . "_hold";
-
+echo print_r($_SESSION);
 if(isset($_SESSION[$key_hold])){
   $info = $_SESSION[$key_hold];
-  $examples = $info["examples"];
   $new_occurrences = $info["occurrences"] + 1;
   $new_mean = ($info["mean"] * $info["occurrences"] + $data["timeHold"]) / $new_occurrences;
 
