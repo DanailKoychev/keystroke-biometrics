@@ -50,6 +50,49 @@ function compare($current_data, $sigmas, $percentage){
   return $within_limit;
 }
 
+
+function parliament($current_data, $sigmas, $percentage){
+  // $percentage is the % of key_holds that must be within $sigmas of the mean
+  $conn = new PDO("mysql:host=" . HOST . ";dbname=" . DBNAME, DBUSER, DBPASS);
+
+  $sql = "SELECT * FROM model";
+  $query = $conn->prepare($sql);
+  $query->execute();
+  $result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+  $within_limit = array();
+  if(count($result) > 0){
+    foreach($result as $row){
+      $username = $row['username'];
+      $model = json_decode($row['hold_time'], true);
+      $metric_hold = is_within_limit($current_data, $model, $sigmas, $percentage);
+      // echo "hold ".$username . " " . $metric_hold. "\n";
+      // if(is_within_limit($current_data, $model, $sigmas, $percentage)){
+      //   array_push($within_limit, $username);
+      // }
+      $metric_hist = -1;
+      if(isset($model['bins'])) {
+          if(bhatta($model['bins'], $current_data) > 0.9){
+            array_push($within_limit, $username);
+          }
+          $metric_hist = bhatta($model['bins'], $current_data);
+          // echo round(bhatta($model['bins'], $current_data), 2);
+          // echo  " ";
+          // echo $username;
+          // echo "\n";
+      }
+      if ($metric_hist != -1){
+        echo "parliament: " . round(($metric_hist*0.5 + 0.5*$metric_hold), 2) . " " . $username;
+      }else{
+        echo "just hold: " . round($metric_hold, 2) . " " . $username;
+
+      }
+    }
+  }
+  $conn = null;
+  return $within_limit;
+}
+
 function compare_time_hist($current_data){
   // $percentage is the % of key_holds that must be within $sigmas of the mean
   $conn = new PDO("mysql:host=" . HOST . ";dbname=" . DBNAME, DBUSER, DBPASS);

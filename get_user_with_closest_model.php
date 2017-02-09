@@ -17,8 +17,8 @@ foreach($_SESSION as $key => $value){
 $sigmas = 2.0;
 $percentage = 0.8;
 
-$result = compare($data, $sigmas, $percentage);
-$result_time_hist = compare_time_hist($hist);
+$result = parliament($data, $sigmas, $percentage);
+// $result_time_hist = compare_time_hist($hist);
 
 
 
