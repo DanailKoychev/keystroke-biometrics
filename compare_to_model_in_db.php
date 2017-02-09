@@ -44,4 +44,46 @@ function compare($current_data, $sigmas, $percentage){
   $conn = null;
   return $within_limit;
 }
+
+function compare_time_hist($current_data){
+  // $percentage is the % of key_holds that must be within $sigmas of the mean
+  $conn = new PDO("mysql:host=" . HOST . ";dbname=" . DBNAME, DBUSER, DBPASS);
+
+  $sql = "SELECT * FROM model";
+  $query = $conn->prepare($sql);
+  $query->execute();
+  $result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+  $within_limit = array();
+  if(count($result) > 0){
+    foreach($result as $row){
+      $username = $row['username'];
+      $model = json_decode($row['hold_time'], true);
+      if(isset($model['bins'])) {
+          if(bhatta($model['bins'], $current_data) > 0.9){
+            array_push($within_limit, $username);
+          } 
+          echo round(bhatta($model['bins'], $current_data), 2);
+          echo  " ";
+          echo $username;
+          echo "\n";
+      }
+    }
+  }
+  $conn = null;
+  return $within_limit;
+    
+
+}
+function bhatta($p, $q) {
+    $sum = 0;
+    $sumP = array_sum($p);
+    $sumQ = array_sum($q);
+    for($i = 0; $i < count($p); $i++){
+        $sum += sqrt(($p[$i]/$sumP) * ($q[$i]/$sumQ));
+    }
+    return $sum;
+    //return -log($sum);
+}
+
 ?>

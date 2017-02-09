@@ -25,7 +25,7 @@ $_SESSION = array();
     <input type="button" id="save" value="save">
     <br>
     <br>
-    <textarea id="model-output" cols ="50" rows="5"></textarea>
+    <textarea id="model-output" cols ="50" rows="20"></textarea>
     <br><br>
     <textarea id="result" cols="50" rows="5"></textarea>
     <input type="button" id="check" value="check">

@@ -51,8 +51,6 @@ if(isset($_SESSION[$key_hold])){
   $_SESSION[$key_hold]["s"] = $s_new;
   $_SESSION[$key_hold]["variance"] = $s_new / $new_occurrences;
 
-
-
 }else{
   //first event of a given key
   $info = array(
@@ -65,11 +63,57 @@ if(isset($_SESSION[$key_hold])){
   $_SESSION[$key_hold] = $info;
 }
 
-// $js = json_encode($data);
-// echo json_encode($_SESSION);
 
-// $myfile = fopen("files/file.txt", "a");
-// fwrite($myfile, $js."\n");
-// fclose($myfile);
+
+
+if(isset($_SESSION['all_events'])){
+    array_push($_SESSION['all_events'], $data);
+}else{
+    $_SESSION["all_events"] = array($data);
+}
+
+function f($a, $b){
+    if($a['timeStampDown'] > $b['timeStampDown']){
+       return 1;
+    }else{
+        return -1;
+    }
+}
+
+if(isset($_SESSION['all_events'])){
+    usort($_SESSION['all_events'], 'f');
+}
+
+
+
+if(!isset($_SESSION['times_between_keys'])){
+    $_SESSION['times_between_keys'] = array();
+}
+
+$allEventsLen = count($_SESSION['all_events']);
+if($allEventsLen > 1){
+
+    array_push($_SESSION['times_between_keys'],
+        $_SESSION['all_events'][$allEventsLen-1]['timeStampDown'] - $_SESSION['all_events'][$allEventsLen-2]['timeStampDown']);
+}
+
+$max_duration = 2000;
+$bin_count = 200;
+$bin_size = $max_duration / $bin_count; 
+
+
+if(isset($_SESSION['bins'])){
+    $val = intval($_SESSION['times_between_keys'][count($_SESSION['times_between_keys'])-1] / $bin_size);
+    if($val < $bin_count){
+        $_SESSION['bins'][$val]++;
+    }
+}
+else{
+    $_SESSION['bins'] = array_fill(0, $bin_count, 0);
+}
+
+#  ONLY  WORKS  WITH  EQUAL  LENGHT  HISTOGRAMS  with  NO   0-s  !
+//$_SESSION['test'] = bhatta(array(1,1,2,1,0,0), array(1,2,1,0,0,0)); # testing K-L divergence
+    
 
  ?>
