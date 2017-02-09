@@ -6,8 +6,7 @@ $data = array();
 $hist = array();
 
 foreach($_SESSION as $key => $value){
-    if($key != "username" && $key != "password" && $key != 'times_between_keys' &&
-        $key != 'bins' && $key != 'all_events'){
+    if(strpos($key, 'hold') !== false){
     $data[$key] = $value;
   }
 
@@ -25,7 +24,7 @@ $result_time_hist = compare_time_hist($hist);
 
 //echo print_r($result);
 //echo print_r("--- Hist Metric ----\n");
-echo print_r($result_time_hist);
+// echo print_r($result_time_hist);
 
 
  ?>
