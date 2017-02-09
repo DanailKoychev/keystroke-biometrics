@@ -76,17 +76,19 @@ function parliament($current_data, $sigmas, $percentage){
             array_push($within_limit, $username);
           }
           $metric_hist = bhatta($model['bins'], $current_data);
+          echo "parliament: " . round(($metric_hist*0.5 + 0.5*$metric_hold), 2) . " " . $username;
+
           // echo round(bhatta($model['bins'], $current_data), 2);
           // echo  " ";
           // echo $username;
           // echo "\n";
       }
-      if ($metric_hist != -1){
-        echo "parliament: " . round(($metric_hist*0.5 + 0.5*$metric_hold), 2) . " " . $username;
-      }else{
-        echo "just hold: " . round($metric_hold, 2) . " " . $username;
-
-      }
+      // if ($metric_hist != -1){
+      //   echo "parliament: " . round(($metric_hist*0.5 + 0.5*$metric_hold), 2) . " " . $username;
+      // }else{
+      //   echo "just hold: " . round($metric_hold, 2) . " " . $username;
+      //
+      // }
     }
   }
   $conn = null;
