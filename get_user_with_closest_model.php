@@ -14,10 +14,10 @@ foreach($_SESSION as $key => $value){
         $hist = $value;
     }
 }
-$sigmas = 2.0;
+$sigmas = 1.5;
 $percentage = 0.8;
 
-$result = parliament($data, $sigmas, $percentage);
+$result = parliament($data, $sigmas, $percentage, $hist);
 // $result_time_hist = compare_time_hist($hist);
 
 

@@ -51,7 +51,7 @@ function compare($current_data, $sigmas, $percentage){
 }
 
 
-function parliament($current_data, $sigmas, $percentage){
+function parliament($current_data, $sigmas, $percentage, $hist){
   // $percentage is the % of key_holds that must be within $sigmas of the mean
   $conn = new PDO("mysql:host=" . HOST . ";dbname=" . DBNAME, DBUSER, DBPASS);
 
@@ -65,18 +65,23 @@ function parliament($current_data, $sigmas, $percentage){
     foreach($result as $row){
       $username = $row['username'];
       $model = json_decode($row['hold_time'], true);
-      $metric_hold = is_within_limit($current_data, $model, $sigmas, $percentage);
+      if(count($current_data) > 0) {
+          $metric_hold = is_within_limit($current_data, $model, $sigmas, $percentage);
+      }
       // echo "hold ".$username . " " . $metric_hold. "\n";
       // if(is_within_limit($current_data, $model, $sigmas, $percentage)){
       //   array_push($within_limit, $username);
       // }
       $metric_hist = -1;
-      if(isset($model['bins'])) {
-          if(bhatta($model['bins'], $current_data) > 0.9){
+      if(isset($model['bins']) && count($hist) != 0) {
+          if(bhatta($model['bins'], $hist) > 0.9){
             array_push($within_limit, $username);
           }
-          $metric_hist = bhatta($model['bins'], $current_data);
-          echo "parliament: " . round(($metric_hist*0.5 + 0.5*$metric_hold), 2) . " " . $username;
+          $metric_hist = bhatta($model['bins'], $hist);
+          echo round($metric_hold, 2) . "   " . round($metric_hist, 2) ."   ";
+          echo "p+:" . round(($metric_hist*0.5 + 0.5*$metric_hold), 2) .  "  " . "p*:" . round(($metric_hist*$metric_hold), 2) . "   " . $username . "\n";
+          //echo " " . round(($metric_hist*$metric_hold), 2);
+          //echo "p: " . round(($metric_hist*$metric_hold), 2) . " " . $username . "\n";
 
           // echo round(bhatta($model['bins'], $current_data), 2);
           // echo  " ";
@@ -129,6 +134,9 @@ function bhatta($p, $q) {
     $sum = 0;
     $sumP = array_sum($p);
     $sumQ = array_sum($q);
+    if($sumP == 0 || $sumQ == 0) {
+        return 1;
+    }
     for($i = 0; $i < count($p); $i++){
         $sum += sqrt(($p[$i]/$sumP) * ($q[$i]/$sumQ));
     }
