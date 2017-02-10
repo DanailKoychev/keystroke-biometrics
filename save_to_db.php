@@ -11,24 +11,30 @@ $dbname = DBNAME;
 
 $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
 
-$data = array();
+// $data = array();
 
 $username = $_POST["username"];
 
+$hold_time = array();
+
+$hist = array();
 
 foreach($_SESSION as $key => $value){
-  if($key != "username"){
-    $data[$key] = $value;
+  if(strpos($key, 'hold') !== false){
+    $hold_time[$key] = $value;
   }
 }
 
-$model_in_js = json_encode($data);
+$hist['bins'] = $_SESSION['bins'];
+
+$hold_time_in_js = json_encode($hold_time);
+$hist_in_js = json_encode($hist);
 
 
-$sql_insert_user = "INSERT INTO users(username) VALUES( :username)";
-$stmt = $conn->prepare($sql_insert_user);
-$stmt->bindParam(":username", $username);
-$success = $stmt->execute();
+// $sql_insert_user = "INSERT INTO users(username) VALUES( :username)";
+// $stmt = $conn->prepare($sql_insert_user);
+// $stmt->bindParam(":username", $username);
+// $success = $stmt->execute();
 
 // if($success){
 //   echo "User successfully added!";
@@ -36,10 +42,11 @@ $success = $stmt->execute();
 //   echo "Couldn't add user :(";
 // }
 
-$sql_insert_model = "INSERT INTO model(username, hold_time) VALUES (:username, :hold_time_metric)";
+$sql_insert_model = "INSERT INTO metrics(username, hold_time, histogram) VALUES (:username, :hold_time_metric, :histogram_metric)";
 $stmt = $conn->prepare($sql_insert_model);
 $stmt->bindParam(":username", $username);
-$stmt->bindParam(":hold_time_metric", $model_in_js);
+$stmt->bindParam(":hold_time_metric", $hold_time_in_js);
+$stmt->bindParam(":histogram_metric", $hist_in_js);
 $success = $stmt->execute();
 
 if($success){

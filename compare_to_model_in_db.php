@@ -5,6 +5,7 @@ function is_within_limit($current_data, $other, $sigmas, $percentage){
   //percentage should be a number between 0 and 1
   $count_within_limit = 0;
   $differences = 0;
+  $number_of_common_chars = 0;
   foreach ($current_data as $key_press => $metric) {
     if (isset($other[$key_press])){
       $other_metric = $other[$key_press];
@@ -15,13 +16,17 @@ function is_within_limit($current_data, $other, $sigmas, $percentage){
       $difference = abs($current_mean - $other_mean);
 
       $differences += $difference;
-
+      $number_of_common_chars += 1;
       if($difference <= $sigmas * $other_standart_deviation){
         $count_within_limit += 1;
       }
     }
   }
-  return $count_within_limit / count($current_data);
+  if ($number_of_common_chars == 0){
+    return 0;
+  }else{
+    return $count_within_limit / $number_of_common_chars;
+  }
 
 }
 
@@ -61,38 +66,40 @@ function merge_bins_50($bins){
     array_push($new_bins, $current_bin);
     }
     return $new_bins;
-}    
+}
 
 
 function parliament($current_data, $sigmas, $percentage, $hist){
   // $percentage is the % of key_holds that must be within $sigmas of the mean
   $conn = new PDO("mysql:host=" . HOST . ";dbname=" . DBNAME, DBUSER, DBPASS);
 
-  $sql = "SELECT * FROM model";
+  $sql = "SELECT * FROM metrics";
   $query = $conn->prepare($sql);
   $query->execute();
   $result = $query->fetchAll(PDO::FETCH_ASSOC);
-
+  // print_r($current_data);
   $within_limit = array();
   if(count($result) > 0){
     foreach($result as $row){
       $username = $row['username'];
-      $model = json_decode($row['hold_time'], true);
+      
+      $hold_time = json_decode($row['hold_time'], true);
+      $hist_model = json_decode($row['histogram'], true);
       if(count($current_data) > 0) {
-          $metric_hold = is_within_limit($current_data, $model, $sigmas, $percentage);
+          $metric_hold = is_within_limit($current_data, $hold_time, $sigmas, $percentage);
       }
-      if(isset($model['bins']) && count($hist) != 0) {
+      if(isset($hist_model['bins']) && count($hist) != 0) {
     # MERGE BINS 50 ------------
-          $metric_hist = bhatta($model['bins'], $hist);
+          $metric_hist = bhatta($hist_model['bins'], $hist);
           //$metric_hist50 = bhatta(merge_bins_50($model['bins']),merge_bins_50($hist));
 
           //echo print_r(merge_bins_50($hist));
           //echo round($metric_hist, 2) . " " .
-              //round($metric_hist50, 2). " " . $username . "\n"; 
+              //round($metric_hist50, 2). " " . $username . "\n";
 
-            
-          //echo round($metric_hold, 2) . "   " . round($metric_hist, 2) ."   ";
-          //echo "p+:" . round(($metric_hist*0.5 + 0.5*$metric_hold), 2) .  "  " . "p*:" . round(($metric_hist*$metric_hold), 2) . "   " . $username . "\n";
+
+          // echo round($metric_hold, 2) . "   " . round($metric_hist, 2) ."   ";
+          // echo "p+:" . round(($metric_hist*0.5 + 0.5*$metric_hold), 2) .  "  " . "p*:" . round(($metric_hist*$metric_hold), 2) . "   " . $username . "\n";
 
           $parliament_decision = $metric_hist*0.5 + 0.5*$metric_hold;
           if($parliament_decision > 0.2){
@@ -102,7 +109,7 @@ function parliament($current_data, $sigmas, $percentage, $hist){
     }
   }
   $conn = null;
-  //return $within_limit; 
+  //return $within_limit;
   usort($within_limit, "compare_similarity");
   return $within_limit;
 }

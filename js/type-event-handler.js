@@ -32,6 +32,7 @@ var key_up_handler = function(event) {
                 data: repr,
                 type: "POST",
                 success: function(data) {
+                  console.clear();
                     // console.log(data);
                 }
             });

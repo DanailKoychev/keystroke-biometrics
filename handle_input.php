@@ -33,7 +33,7 @@ $data = array(
 );
 
 $key_hold = $data["key"] . "_hold";
-echo print_r($_SESSION);
+
 if(isset($_SESSION[$key_hold])){
   $info = $_SESSION[$key_hold];
   $new_occurrences = $info["occurrences"] + 1;
@@ -64,6 +64,7 @@ if(isset($_SESSION[$key_hold])){
 }
 
 
+echo print_r($_SESSION);
 
 
 if(isset($_SESSION['all_events'])){
@@ -99,7 +100,7 @@ if($allEventsLen > 1){
 
 $max_duration = 2000;
 $bin_count = 200;
-$bin_size = $max_duration / $bin_count; 
+$bin_size = $max_duration / $bin_count;
 
 
 if(isset($_SESSION['bins'])){
@@ -114,6 +115,6 @@ else{
 
 #  ONLY  WORKS  WITH  EQUAL  LENGHT  HISTOGRAMS  with  NO   0-s  !
 //$_SESSION['test'] = bhatta(array(1,1,2,1,0,0), array(1,2,1,0,0,0)); # testing K-L divergence
-    
+
 
  ?>

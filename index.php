@@ -18,8 +18,8 @@ $_SESSION = array();
 <body>
     <textarea id="text-input" cols="50" rows="5"></textarea>
     <br>
-    <label for="user">Username</label>
-    <input type="text" id="user">
+    <label for="username">Username</label>
+    <input type="text" id="username">
     <label for="pass">Password</label>
     <input type="text" id="pass">
     <input type="button" id="save" value="save">
