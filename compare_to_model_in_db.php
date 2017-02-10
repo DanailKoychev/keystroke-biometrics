@@ -102,8 +102,23 @@ function parliament($current_data, $sigmas, $percentage, $hist){
     }
   }
   $conn = null;
+  //return $within_limit; 
+  usort($within_limit, "compare_similarity");
   return $within_limit;
 }
+
+function compare_similarity($u1, $u2){
+    if($u1[1] < $u2[1]){
+        return 1;
+    }
+    if($u1[1] == $u2[1]){
+        return 0;
+    }
+    if($u1[1] > $u2[1]){
+        return -1;
+    }
+}
+
 
 function compare_time_hist($current_data){
   // $percentage is the % of key_holds that must be within $sigmas of the mean
@@ -132,9 +147,9 @@ function compare_time_hist($current_data){
   }
   $conn = null;
   return $within_limit;
-
-
 }
+
+
 function bhatta($p, $q) {
     $sum = 0;
     $sumP = array_sum($p);
