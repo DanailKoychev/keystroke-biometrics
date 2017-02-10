@@ -22,18 +22,13 @@ var key_up_handler = function(event) {
             repr["timeStampUp"] = time_up;
             repr["timeHold"] = repr["timeStampUp"] - repr["timeStampDown"];
             repr["timeHoldBrowserSpecific"] = repr["timeStampBrowserSpecificUp"] - repr["timeStampBrowserSpecificDown"];
-            //remove event after we've found its sibling\
             key_downs.splice(i, 1);
-
-            // console.log(key_downs);
 
             $.ajax({
                 url: "handle_input.php",
                 data: repr,
                 type: "POST",
                 success: function(data) {
-                  console.clear();
-                    // console.log(data);
                 }
             });
         }

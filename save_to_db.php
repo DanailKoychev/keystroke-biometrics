@@ -11,7 +11,6 @@ $dbname = DBNAME;
 
 $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
 
-// $data = array();
 
 $username = $_POST["username"];
 
@@ -30,17 +29,6 @@ $hist['bins'] = $_SESSION['bins'];
 $hold_time_in_js = json_encode($hold_time);
 $hist_in_js = json_encode($hist);
 
-
-// $sql_insert_user = "INSERT INTO users(username) VALUES( :username)";
-// $stmt = $conn->prepare($sql_insert_user);
-// $stmt->bindParam(":username", $username);
-// $success = $stmt->execute();
-
-// if($success){
-//   echo "User successfully added!";
-// }else{
-//   echo "Couldn't add user :(";
-// }
 
 $sql_insert_model = "INSERT INTO metrics(username, hold_time, histogram) VALUES (:username, :hold_time_metric, :histogram_metric)";
 $stmt = $conn->prepare($sql_insert_model);

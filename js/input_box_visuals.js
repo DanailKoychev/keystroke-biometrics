@@ -4,16 +4,12 @@ var move_text = function(){
     return;
   }
   var span_splitted = span_content.split(" ");
-  // console.log(span_splitted);
   var first_word = span_splitted[0];
   var input_content = document.getElementById('input').value;
-  // console.log(first_word.length);
-  // console.log(first_word);
   if(first_word.replace("\n", "").concat(" ").length <= input_content.length){
     document.getElementById('input').value = "";
     var without_first_word = span_splitted.slice(1, span_splitted.length);
     document.getElementById('text_placeholder').value = without_first_word.join(" ");
-
   }
 }
 
@@ -81,6 +77,5 @@ var show_guess = function(started_periodic_query){
     var text = document.getElementById("text_placeholder").value;
     if (text === ""){
       $("#text_container").animate({opacity: 0});
-      // $("#input").prop( "disabled", true );
     }
 }

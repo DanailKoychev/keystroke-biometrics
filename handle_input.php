@@ -121,8 +121,5 @@ else{
     $_SESSION['bins'] = array_fill(0, $bin_count, 0);
 }
 
-#  ONLY  WORKS  WITH  EQUAL  LENGHT  HISTOGRAMS  with  NO   0-s  !
-//$_SESSION['test'] = bhatta(array(1,1,2,1,0,0), array(1,2,1,0,0,0)); # testing K-L divergence
-
 
  ?>

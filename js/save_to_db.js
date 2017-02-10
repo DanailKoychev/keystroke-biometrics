@@ -11,7 +11,7 @@ var save_to_db = function(){
           if (data === "success"){
             document.getElementById("enter_name").innerHTML = "Успешно е добавено в базата!";
             $("#record_button").removeClass("btn-primary").addClass("btn-success");
-             $('#record_button').attr("disabled", true);
+            $('#record_button').attr("disabled", true);
           }else{
             document.getElementById("enter_name").innerHTML = "Вече съществува такова име в базата.";
             $("#record_button").removeClass("btn-primary").addClass("btn-danger");
