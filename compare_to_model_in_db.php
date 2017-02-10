@@ -91,11 +91,11 @@ function parliament($current_data, $sigmas, $percentage, $hist){
               //round($metric_hist50, 2). " " . $username . "\n"; 
 
             
-          echo round($metric_hold, 2) . "   " . round($metric_hist, 2) ."   ";
-          echo "p+:" . round(($metric_hist*0.5 + 0.5*$metric_hold), 2) .  "  " . "p*:" . round(($metric_hist*$metric_hold), 2) . "   " . $username . "\n";
+          //echo round($metric_hold, 2) . "   " . round($metric_hist, 2) ."   ";
+          //echo "p+:" . round(($metric_hist*0.5 + 0.5*$metric_hold), 2) .  "  " . "p*:" . round(($metric_hist*$metric_hold), 2) . "   " . $username . "\n";
 
           $parliament_decision = $metric_hist*0.5 + 0.5*$metric_hold;
-          if($parliament_decision > 0.8){
+          if($parliament_decision > 0.2){
             array_push($within_limit, array($username, $parliament_decision));
           }
       }
@@ -123,10 +123,10 @@ function compare_time_hist($current_data){
           if(bhatta($model['bins'], $current_data) > 0.9){
             array_push($within_limit, $username);
           }
-          echo round(bhatta($model['bins'], $current_data), 2);
-          echo  " ";
-          echo $username;
-          echo "\n";
+          //echo round(bhatta($model['bins'], $current_data), 2);
+          //echo  " ";
+          //echo $username;
+          //echo "\n";
       }
     }
   }
