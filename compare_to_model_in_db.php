@@ -68,32 +68,15 @@ function parliament($current_data, $sigmas, $percentage, $hist){
       if(count($current_data) > 0) {
           $metric_hold = is_within_limit($current_data, $model, $sigmas, $percentage);
       }
-      // echo "hold ".$username . " " . $metric_hold. "\n";
-      // if(is_within_limit($current_data, $model, $sigmas, $percentage)){
-      //   array_push($within_limit, $username);
-      // }
-      $metric_hist = -1;
       if(isset($model['bins']) && count($hist) != 0) {
           if(bhatta($model['bins'], $hist) > 0.9){
             array_push($within_limit, $username);
           }
           $metric_hist = bhatta($model['bins'], $hist);
+
           echo round($metric_hold, 2) . "   " . round($metric_hist, 2) ."   ";
           echo "p+:" . round(($metric_hist*0.5 + 0.5*$metric_hold), 2) .  "  " . "p*:" . round(($metric_hist*$metric_hold), 2) . "   " . $username . "\n";
-          //echo " " . round(($metric_hist*$metric_hold), 2);
-          //echo "p: " . round(($metric_hist*$metric_hold), 2) . " " . $username . "\n";
-
-          // echo round(bhatta($model['bins'], $current_data), 2);
-          // echo  " ";
-          // echo $username;
-          // echo "\n";
       }
-      // if ($metric_hist != -1){
-      //   echo "parliament: " . round(($metric_hist*0.5 + 0.5*$metric_hold), 2) . " " . $username;
-      // }else{
-      //   echo "just hold: " . round($metric_hold, 2) . " " . $username;
-      //
-      // }
     }
   }
   $conn = null;
