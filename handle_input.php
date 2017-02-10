@@ -20,6 +20,9 @@ $timeHold = $_POST["timeHold"];
 $timeHoldBrowserSpecific = $_POST["timeHoldBrowserSpecific"];
 $shiftKey    = $_POST["shiftKey"];
 
+if($key == "!") { $key = "excl"; }
+if($key == "|") { $key = "pipe"; }
+
 $data = array(
     "key"     => $key,
     "timeStampUp"  => $timeStampUp,
@@ -31,6 +34,7 @@ $data = array(
     "shiftKey"   => $shiftKey
 
 );
+
 
 $key_hold = $data["key"] . "_hold";
 
@@ -66,8 +70,12 @@ if(isset($_SESSION[$key_hold])){
 
 echo print_r($_SESSION);
 
-
 if(isset($_SESSION['all_events'])){
+    echo "-------------------------\n";
+    echo print_r($data);
+    echo "\n";
+    //echo print_r($data['key'];
+    //echo '\n ==============================';
     array_push($_SESSION['all_events'], $data);
 }else{
     $_SESSION["all_events"] = array($data);

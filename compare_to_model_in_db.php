@@ -45,10 +45,6 @@ function compare($current_data, $sigmas, $percentage){
       $username = $row['username'];
       $model = json_decode($row['hold_time'], true);
       $metric = is_within_limit($current_data, $model, $sigmas, $percentage);
-      echo "hold ".$username . " " . $metric . "\n";
-      // if(is_within_limit($current_data, $model, $sigmas, $percentage)){
-      //   array_push($within_limit, $username);
-      // }
     }
   }
   $conn = null;
@@ -82,14 +78,14 @@ function parliament($current_data, $sigmas, $percentage, $hist){
   if(count($result) > 0){
     foreach($result as $row){
       $username = $row['username'];
-      
+
       $hold_time = json_decode($row['hold_time'], true);
       $hist_model = json_decode($row['histogram'], true);
       if(count($current_data) > 0) {
           $metric_hold = is_within_limit($current_data, $hold_time, $sigmas, $percentage);
       }
       if(isset($hist_model['bins']) && count($hist) != 0) {
-    # MERGE BINS 50 ------------
+    # MERGE BINS 50 
           $metric_hist = bhatta($hist_model['bins'], $hist);
           //$metric_hist50 = bhatta(merge_bins_50($model['bins']),merge_bins_50($hist));
 
@@ -101,16 +97,23 @@ function parliament($current_data, $sigmas, $percentage, $hist){
           // echo round($metric_hold, 2) . "   " . round($metric_hist, 2) ."   ";
           // echo "p+:" . round(($metric_hist*0.5 + 0.5*$metric_hold), 2) .  "  " . "p*:" . round(($metric_hist*$metric_hold), 2) . "   " . $username . "\n";
 
+
           $parliament_decision = $metric_hist*0.5 + 0.5*$metric_hold;
-          if($parliament_decision > 0.2){
-            array_push($within_limit, array($username, $parliament_decision));
-          }
+
+
+          array_push($within_limit, array($username, $parliament_decision));
       }
     }
   }
   $conn = null;
   //return $within_limit;
   usort($within_limit, "compare_similarity");
+  for($i = 1; $i < count($within_limit); $i++){
+      if($within_limit[0][1] - $within_limit[$i][1] > 0.02){
+          $within_limit = array_slice($within_limit, 0, $i );
+          break;
+      }
+  }
   return $within_limit;
 }
 
@@ -145,10 +148,6 @@ function compare_time_hist($current_data){
           if(bhatta($model['bins'], $current_data) > 0.9){
             array_push($within_limit, $username);
           }
-          //echo round(bhatta($model['bins'], $current_data), 2);
-          //echo  " ";
-          //echo $username;
-          //echo "\n";
       }
     }
   }
