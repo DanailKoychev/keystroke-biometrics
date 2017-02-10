@@ -1,6 +1,8 @@
 var move_text = function(){
   var span_content = document.getElementById('text_placeholder').value;
-
+  if(span_content == ""){
+    return;
+  }
   var span_splitted = span_content.split(" ");
   // console.log(span_splitted);
   var first_word = span_splitted[0];
@@ -79,6 +81,6 @@ var show_guess = function(started_periodic_query){
     var text = document.getElementById("text_placeholder").value;
     if (text === ""){
       $("#text_container").animate({opacity: 0});
-      $("#input").prop( "disabled", true );
+      // $("#input").prop( "disabled", true );
     }
 }

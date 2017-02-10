@@ -30,7 +30,7 @@ if($result_json[strlen($result_json) - 1] == ","){
 }
 $result_json = $result_json . "]";
 
-//echo $result_json;
+echo $result_json;
 
 
 
