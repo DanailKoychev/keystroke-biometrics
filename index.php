@@ -39,7 +39,7 @@ $_SESSION = array();
 
         $("#check").click(check_closest_model);
 
-        periodic_query_for_model();
+        periodic_query_for_model_legacy();
     </script>
 
 </body>
