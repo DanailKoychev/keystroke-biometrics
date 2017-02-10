@@ -22,10 +22,11 @@ $result = parliament($data, $sigmas, $percentage, $hist);
 $result_json = "[";
 foreach($result as $user){
     $result_json = $result_json . "{\"username\":\"" . $user[0] . "\", \"similarity\":\"" . $user[1] . "\"},";
-} 
+}
+
 
 if($result_json[strlen($result_json) - 1] == ","){
-    $result_json =  substr($result_json, 0, strlen($result_json)-1); 
+    $result_json =  substr($result_json, 0, strlen($result_json)-1);
 }
 $result_json = $result_json . "]";
 

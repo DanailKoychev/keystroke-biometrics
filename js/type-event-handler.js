@@ -25,14 +25,14 @@ var key_up_handler = function(event) {
             //remove event after we've found its sibling\
             key_downs.splice(i, 1);
 
-            console.log(key_downs);
+            // console.log(key_downs);
 
             $.ajax({
                 url: "handle_input.php",
                 data: repr,
                 type: "POST",
                 success: function(data) {
-                    console.log(data);
+                    // console.log(data);
                 }
             });
         }
