@@ -30,10 +30,13 @@ var periodic_query_for_model_legacy = function(){
 
 var on_response = function(data){
   var json_response = JSON.parse(data);
-  var best_one = json_response[0];
+  var text = "";
   var username = document.getElementById("guess_container");
-  username.innerHTML = best_one["username"];
-  var similarity = document.getElementById("percentage_similar");
-  var rounded = Math.round(best_one["similarity"] * 100) + "% подобие";
-  similarity.innerHTML = rounded;
+
+  for(var i = 0; i < json_response.length && i < 2; i++){
+    var current = json_response[i];
+    text += current['username']  + " " +  Math.round(current["similarity"] * 100) + "%\n";
+  }
+
+  username.innerHTML = text;
 }

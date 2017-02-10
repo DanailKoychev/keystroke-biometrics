@@ -68,7 +68,7 @@ $_SESSION = array();
 
         <div id="guess_div" class="guess_div" style="display: none;">
             <h5 class>Може би?</h5>
-            <pre style="margin-top: 20px"><div id="guess_container">Бай Хуй</div></pre>
+            <pre style="margin-top: 20px"><div id="guess_container"></div></pre>
             <div id="percentage_similar"></div>
         </div>
     </div>
