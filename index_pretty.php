@@ -22,6 +22,7 @@ $_SESSION = array();
     <script src="js/input_box_visuals.js"></script>
     <script src="js/enable_login.js"></script>
     <script src="js/choose_mode.js"></script>
+    <script src="js/home_button.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
@@ -43,12 +44,14 @@ $_SESSION = array();
     <input type="button" id="check" value="check"> -->
 
 <!-- ################################################################## -->
+    <div style="width: 60px; height:60px; padding: 10px;" class="btn" id="home_button" ><span style="font-size: 30px;" class="glyphicon glyphicon-home"></span></div>
     <input type="hidden" id="mode" autocomplete="off">
     <div class="initial_navigation" id="initial_navigation">
         <a href="#" id="save_button" class="btn btn-primary initial_nav_size"><span class="glyphicon glyphicon-floppy-save"></span> Запази</a>
         <br>
         <a href="#" id="id_button" class="btn btn-success initial_nav_size" style="margin-top: 30px"><span class="glyphicon glyphicon-check"></span> Идентифицирай</a>
     </div>
+
     <div id="global_container" style="display: none;">
         <form autocomplete="off">
             <input type="hidden" id="text_placeholder" autocomplete="off">
@@ -73,10 +76,12 @@ $_SESSION = array();
         </div>
     </div>
 
+
     <script>
+
         $("#input").keyup(key_up_handler);
         $("#input").keydown(key_down_handler);
-
+        $("#home_button").click(on_home_button_press);
         $("#record_button").click(save_to_db);
 
         var text_global = read_text();
