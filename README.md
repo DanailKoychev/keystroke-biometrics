@@ -8,6 +8,12 @@ The idea is to implement a system that recognizes a person by the way he/she typ
 
 The implementation is in php and javascript and uses no additional libraries besides jQuery.
 
+# Prerequisites
+
+The code expects to find a database containing a table called 'metrics' with 3 columns : username, hold_time, histogram. You have to either create such a table or use the sql script in the db folder. db_create_db.sql will create a database called keystroke_biometrics and a table called metrics and fill it with data from 4 users. db.sql will just create the table and fill it with data from 4 users. 
+
+Default name for the database is keystroke_biometrics with user root and no password, also the address of the DB is localhost. If you want to change any of these edit `CONSTANTS.php`.
+
 # Usage
 
 Just run a web server with a php interpreter and load index.php in a browser.
